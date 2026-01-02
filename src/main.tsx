@@ -16,7 +16,7 @@ createRoot(document.getElementById('root')!).render(
           position="top-center"
           reverseOrder={true}
           toastOptions={{
-            className: "rounded", // Your custom rounded corners
+            className: "rounded", 
             success: {
               className: "", // Toast background
               iconTheme: {
