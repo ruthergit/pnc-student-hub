@@ -99,7 +99,7 @@ const LoginPage = () => {
 
           {/* Back to Home */}
           <button 
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/welcome")}
             className="mt-6 w-full text-xs text-slate-400 hover:text-slate-600 transition-colors"
           >
             ← Back to Landing Page

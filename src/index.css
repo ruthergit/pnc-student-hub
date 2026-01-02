@@ -1,4 +1,4 @@
-/* Change display=swap to display=block */
+/* index.css */
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans:opsz,wght@17..18,400..700&display=block');
 @import "tailwindcss";
 
@@ -10,3 +10,5 @@
     --color-font-color: #545454;
     --color-bg: #F6F8FA;
 }
+
+

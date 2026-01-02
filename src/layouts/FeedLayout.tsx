@@ -3,7 +3,7 @@ import Navbar from "../common/components/Navbar";
 
 const FeedLayout = () => {
   return (
-    <div>
+    <div className="">
         <Navbar/>
         <Outlet/>
     </div>
