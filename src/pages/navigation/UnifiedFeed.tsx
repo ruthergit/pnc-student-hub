@@ -1,5 +1,5 @@
 import MarketPost from "../../features/marketplace/components/MarketPost"
-import MaterialPost from "../../features/Materials/components/MaterialPost"
+import MaterialPost from "../../features/materials/components/MaterialPost"
 import RequestPost from "../../features/requests/components/RequestPost"
 
 const UnifiedFeed = () => {
