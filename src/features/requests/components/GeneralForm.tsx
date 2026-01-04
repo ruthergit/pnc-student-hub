@@ -1,70 +1,111 @@
-import { useForm, type SubmitHandler } from "react-hook-form"
-import type { CreatePostContentPayload } from "../types/post"
-import { useCreatePost } from "../hooks/usePostMutation"
-import { useNavigate } from "react-router-dom"
-import toast from 'react-hot-toast';
+import { useForm, type SubmitHandler } from "react-hook-form";
+import type { CreatePostContentPayload } from "../types/post";
+import { useCreatePost } from "../hooks/usePostMutation";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-type FormValues = CreatePostContentPayload
+type FormValues = CreatePostContentPayload;
 
 const GeneralForm = () => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>();
-  const { mutate, isPending, reset: resetMutation } = useCreatePost();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormValues>();
 
+  const { mutate, isPending, reset: resetMutation } = useCreatePost();
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     resetMutation();
     mutate(data, {
       onSuccess: () => {
-        reset(); 
+        reset();
         navigate("/feed");
         toast.success("Post successfully created!");
       },
       onError: (err: any) => {
-        const errorMessage = err?.response?.data?.message || err?.message || "An error occurred";
+        const errorMessage =
+          err?.response?.data?.message || err?.message || "An error occurred";
         toast.error(errorMessage);
       },
     });
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 shadow-xl rounded bg-white">
-      <h2 className="text-xl font-semibold mb-4">Create Post Content</h2>
+    <div className="space-y-6">
+      {/* Header / Context */}
+      <div className="space-y-1">
+        <p className="text-sm text-slate-500">
+          Share updates, questions, or thoughts with the community.
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      {/* Form */}
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        {/* Title */}
         <div>
-          <label className="block mb-1 font-medium">Title</label>
+          <label className="block text-sm font-medium text-slate-600 mb-1">
+            Title
+          </label>
           <input
             {...register("title", { required: "Title is required" })}
             type="text"
-            className="w-full px-4 py-3 rounded border border-slate-200 focus:border-green focus:ring-2 focus:ring-green/20 outline-none transition-all text-slate-700"
-            placeholder="Enter post title"
+            placeholder="What's your post about?"
+            className="w-full px-4 py-3 text-base rounded border border-slate-200
+              focus:border-green focus:ring-2 focus:ring-green/20 outline-none
+              transition-all text-slate-700"
           />
-          {errors.title && <p className="text-red-500 mt-1">{errors.title.message}</p>}
+          {errors.title && (
+            <p className="text-xs text-red-500 mt-1">{errors.title.message}</p>
+          )}
         </div>
 
+        {/* Description */}
         <div>
-          <label className="block mb-1 font-medium">Description</label>
+          <label className="block text-sm font-medium text-slate-600 mb-1">
+            Description
+          </label>
           <textarea
-            {...register("description", { required: "Description is required" })}
-            className="w-full px-4 py-3 rounded border border-slate-200 focus:border-green focus:ring-2 focus:ring-green/20 outline-none transition-all text-slate-700"
-            placeholder="Enter post description"
-            rows={4}
+            {...register("description", {
+              required: "Description is required",
+            })}
+            rows={5}
+            placeholder="Write something helpful or interesting..."
+            className="w-full px-4 py-3 rounded border border-slate-200
+              focus:border-green focus:ring-2 focus:ring-green/20 outline-none
+              transition-all text-slate-700 resize-none"
           />
-          {errors.description && <p className="text-red-500 mt-1">{errors.description.message}</p>}
+          {errors.description && (
+            <p className="text-xs text-red-500 mt-1">
+              {errors.description.message}
+            </p>
+          )}
         </div>
 
+        {/* Helper text */}
+        <p className="text-xs text-slate-400">
+          Be respectful and relevant. Posts are visible to everyone.
+        </p>
+
+        {/* Submit Button */}
         <button
           type="submit"
-          disabled={isPending} // 3. Use isPending from React Query
-          className={`w-full py-4 text-white font-bold rounded shadow-lg transition-all active:scale-[0.98] disabled:opacity-70 
-            ${isPending ? "bg-gray-400" : "bg-green hover:bg-green-700"}`}
+          disabled={isPending}
+          className={`w-full py-4 rounded font-semibold text-white
+            transition-all active:scale-[0.98] disabled:opacity-70
+            ${
+              isPending
+                ? "bg-slate-400"
+                : "bg-green hover:bg-green-700 shadow-lg shadow-green/30"
+            }`}
         >
-          {isPending ? "Creating..." : "Create Post"}
+          {isPending ? "Posting..." : "Post to Feed"}
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default GeneralForm
+export default GeneralForm;

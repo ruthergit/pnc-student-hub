@@ -21,18 +21,25 @@ const Create = () => {
   return (
     <div className="relative pt-14 h-dvh overflow-hidden  ">
       {/* Background/Base layer */}
-      <div className="px-4">
-        <h1 className="text-2xl font-bold text-gray-800">New Post</h1>
-        <p className="text-gray-500">Share something with the community.</p>
+      <div className="px-4 py-6 space-y-2">
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded bg-green/10">
+            <MessageSquare className="text-green" size={22} />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-800">Create a New Post</h1>
+        </div>
+
+        <p className="text-gray-500 text-sm max-w-sm">
+          Choose what you want to share — a post, learning material, or something to sell.
+        </p>
       </div>
 
       {/* Action Sheet Overlay */}
-      <div className={`fixed inset-0 bg-black/20 transition-opacity ${selectedType ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} />
+      <div className={`fixed inset-0 bg-black/10 transition-opacity ${selectedType ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} />
 
       {/* The Sheet */}
       <div className={`absolute bottom-10 w-full bg-white shadow-2xl transition-transform duration-300 ease-out p-4 pb-12 ${selectedType ? 'h-[90dvh] overflow-y-auto' : 'h-auto'}`}>
       
-
         {!selectedType ? (
           <div className="space-y-4 pt-1.5">
             <h2 className="text-lg font-semibold mb-4">Select Post Type</h2>
@@ -57,7 +64,7 @@ const Create = () => {
           </div>
         ) : (
           <div className="animate-in slide-in-from-bottom-10 duration-75 ">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-2">
               <h2 className="text-xl font-bold capitalize">{selectedType} Post</h2>
               <button onClick={() => setSelectedType(null)} className="">
                 <X size={20} />
