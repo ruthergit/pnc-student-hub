@@ -110,7 +110,7 @@ const MarketplaceForm = () => {
       {/* Header */}
       <div className="space-y-1">
         <p className="text-sm text-slate-500">
-          Share updates, questions, or thoughts with the community.
+          Ready to declutter? List your items in seconds and connect with buyers in the community.
         </p>
       </div>
 
