@@ -2,7 +2,10 @@ import { useWatch, useForm, type SubmitHandler } from "react-hook-form";
 import { useCreateItemPost } from "../hooks/usePostMutation";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import type { CreateMaterialPayload, MaterialFile } from "../types/material";
+import type {
+  CreateMaterialPayload,
+  MaterialFile,
+} from "../types/materialPayload";
 import { v4 as uuidv4 } from "uuid";
 
 type FormValues = CreateMaterialPayload;
@@ -100,7 +103,8 @@ const MaterialForm = () => {
       {/* Header */}
       <div className="space-y-1">
         <p className="text-sm text-slate-500">
-          Share a quick tip, a lesson learned, or your study notes to help others succeed.
+          Share a quick tip, a lesson learned, or your study notes to help
+          others succeed.
         </p>
       </div>
 
@@ -129,14 +133,18 @@ const MaterialForm = () => {
             Description
           </label>
           <textarea
-            {...register("description", { required: "Description is required" })}
+            {...register("description", {
+              required: "Description is required",
+            })}
             rows={5}
             placeholder="Write something about the material..."
             className="w-full px-4 py-3 rounded border border-slate-200
               focus:border-green focus:ring-2 focus:ring-green/20 outline-none resize-none"
           />
           {errors.description && (
-            <p className="text-xs text-red-500 mt-1">{errors.description.message}</p>
+            <p className="text-xs text-red-500 mt-1">
+              {errors.description.message}
+            </p>
           )}
         </div>
 
@@ -165,7 +173,10 @@ const MaterialForm = () => {
                   <button
                     type="button"
                     onClick={() =>
-                      setValue("files", files.filter((_, i) => i !== idx))
+                      setValue(
+                        "files",
+                        files.filter((_, i) => i !== idx)
+                      )
                     }
                     className="text-red-500 font-bold"
                   >

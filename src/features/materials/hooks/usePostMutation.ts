@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import type {
   CreateMaterialPayload,
   CreateMaterialResult,
-} from "../types/material";
+} from "../types/materialPayload";
 import { createMaterialPost } from "../services/CreatePostMaterial";
 
 export const useCreateItemPost = () => {

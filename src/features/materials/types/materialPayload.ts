@@ -5,13 +5,11 @@ export type MaterialFile = {
   name?: string;
   size?: number;
 };
-
 export type CreateMaterialPayload = {
     title: string
     description: string;
     files: MaterialFile[]
 }
-
 export type CreateMaterialResult = {
   post_id: string;
   material_id: string;

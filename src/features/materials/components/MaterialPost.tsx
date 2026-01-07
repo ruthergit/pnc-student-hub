@@ -1,22 +1,14 @@
 import { useState } from "react";
-import { EllipsisVertical, FileText, Download, Share2, Bookmark } from "lucide-react";
-
-interface FileData {
-  name: string;
-  size: string;
-  type: string;
-  extension: "pdf" | "docx" | "xlsx" | "txt" | string;
-}
-
-interface MaterialPostProps {
-  uploader: string;
-  userInitials?: string;
-  timestamp: string;
-  college: string;
-  title: string;
-  description: string;
-  files: FileData[];
-}
+import {
+  EllipsisVertical,
+  FileText,
+  Download,
+  Share2,
+  Bookmark,
+} from "lucide-react";
+import { formatShort } from "../../../common/utils/date";
+import { formatDepartment } from "../../../common/utils/formatDepartment";
+import type { Material } from "../types/materials";
 
 const fileTypeStyles = {
   pdf: { bg: "bg-red-100", text: "text-red-600" },
@@ -26,24 +18,20 @@ const fileTypeStyles = {
 };
 
 const MaterialPost = ({
-  uploader,
-  userInitials,
-  timestamp,
-  college,
   title,
   description,
-  files,
-}: MaterialPostProps) => {
+  students,
+  materials,
+  created_at,
+}: Material) => {
   const [isSaved, setIsSaved] = useState(false);
 
-  // Generate initials if not provided
-  const initials =
-    userInitials ||
-    uploader
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
+  if (!students) return null;
+  const initials = students.full_name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase();
 
   return (
     <div className="bg-white border-b border-slate-200 pb-6 px-4 max-w-md mx-auto shadow-sm">
@@ -54,9 +42,12 @@ const MaterialPost = ({
             {initials}
           </div>
           <div>
-            <h2 className="font-semibold text-sm text-slate-900">{uploader}</h2>
+            <h2 className="font-semibold text-sm text-slate-900">
+              {students.full_name}
+            </h2>
             <p className="text-xs text-slate-500">
-              {timestamp} • {college}
+              {formatShort(created_at)} •{" "}
+              {formatDepartment(students.department)}
             </p>
           </div>
         </div>
@@ -68,34 +59,51 @@ const MaterialPost = ({
       {/* CONTENT */}
       <div className="space-y-3">
         <div>
-          <h3 className="font-bold text-slate-800 text-lg leading-tight">{title}</h3>
+          <h3 className="font-bold text-slate-800 text-lg leading-tight">
+            {title}
+          </h3>
           <p className="text-sm text-slate-600 mt-1">{description}</p>
         </div>
 
         {/* FILE LIST */}
         <div className="space-y-2">
-          {files.map((file, index) => {
-            const style = (fileTypeStyles as any)[file.extension] || fileTypeStyles.txt;
-            return (
-              <div
-                key={index}
-                className="flex items-center p-3 border border-slate-200 rounded bg-slate-50 hover:bg-slate-100 cursor-pointer transition group"
-              >
-                <div className={`p-2 rounded ${style.bg} ${style.text} group-hover:opacity-80`}>
-                  <FileText size={24} />
-                </div>
+          {materials.map((material) =>
+            material.files.map((file, index) => {
+              const extension =
+                file.name.split(".").pop()?.toLowerCase() || "txt";
+              const style =
+                (fileTypeStyles as any)[extension] || fileTypeStyles.txt;
 
-                <div className="ml-3 flex-1 overflow-hidden">
-                  <p className="text-sm font-medium text-slate-900 truncate">{file.name}</p>
-                  <p className="text-xs text-slate-500">
-                    {file.size} • {file.type}
-                  </p>
-                </div>
+              const fileSizeKB = (file.size / 1024).toFixed(1);
 
-                <Download size={18} className="text-slate-400 group-hover:text-green" />
-              </div>
-            );
-          })}
+              return (
+                <div
+                  key={`${material.id}-${index}`}
+                  className="flex items-center p-3 border border-slate-200 rounded bg-slate-50 hover:bg-slate-100 cursor-pointer transition group"
+                >
+                  <div
+                    className={`p-2 rounded ${style.bg} ${style.text} group-hover:opacity-80`}
+                  >
+                    <FileText size={24} />
+                  </div>
+
+                  <div className="ml-3 flex-1 overflow-hidden">
+                    <p className="text-sm font-medium text-slate-900 truncate">
+                      {file.name}
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      {fileSizeKB} KB • {extension.toUpperCase()}
+                    </p>
+                  </div>
+
+                  <Download
+                    size={18}
+                    className="text-slate-400 group-hover:text-green"
+                  />
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
 
@@ -109,7 +117,9 @@ const MaterialPost = ({
         <button
           onClick={() => setIsSaved(!isSaved)}
           className={`px-4 py-2.5 rounded border flex items-center justify-center transition-all ${
-            isSaved ? "bg-green border-green text-white" : "border-slate-200 text-slate-600 hover:bg-slate-50"
+            isSaved
+              ? "bg-green border-green text-white"
+              : "border-slate-200 text-slate-600 hover:bg-slate-50"
           }`}
         >
           <Bookmark size={18} fill={isSaved ? "currentColor" : "none"} />

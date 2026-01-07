@@ -4,7 +4,7 @@ import type {
   MaterialFile,
   CreateMaterialPayload,
   CreateMaterialResult,
-} from "../types/material";
+} from "../types/materialPayload";
 
 export async function createMaterialPost(
   payload: CreateMaterialPayload

@@ -53,11 +53,11 @@ const UnifiedFeed = () => {
           // case "marketplace":
           //   return <MarketPost key={post.id} post={post} />;
 
-          // case "material":
-          //   return <MaterialPost key={post.id} post={post} />;
+          case "material":
+            return <MaterialPost key={post.id} {...(post as any)} />;
 
           case "post":
-            return <RequestPost key={post.id} {...post as any}/>;
+            return <RequestPost key={post.id} {...(post as any)} />;
 
           default:
             return null;
