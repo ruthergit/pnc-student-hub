@@ -5,26 +5,23 @@ import {
   Share2,
 } from "lucide-react";
 import { useState } from "react";
-import type { RequestPostProps } from "../types/post";
+import type { Post } from "../types/post";
+import { formatShort } from "../../../common/utils/date";
+import { formatDepartment } from "../../../common/utils/formatDepartment";
 
 const RequestPost = ({
-  userName,
-  userInitials,
-  timeAgo,
-  college,
   title,
   description,
-}: RequestPostProps) => {
+  students,
+  created_at,
+}: Post) => {
   const [isSaved, setIsSaved] = useState(false);
-
-  // Generate initials if not provided
-  const initials =
-    userInitials ||
-    userName
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
+  if (!students) return null;
+  const initials = students.full_name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase();
 
   return (
     <div className="bg-white border-b border-slate-200 pb-6 px-4 max-w-md mx-auto shadow-sm">
@@ -34,9 +31,11 @@ const RequestPost = ({
             {initials}
           </div>
           <div>
-            <h2 className="font-semibold text-sm text-slate-900">{userName}</h2>
+            <h2 className="font-semibold text-sm text-slate-900">
+              {students.full_name}
+            </h2>
             <p className="text-xs text-slate-500">
-              {timeAgo} • {college}
+              {formatShort(created_at)} • {formatDepartment(students.department)}
             </p>
           </div>
         </div>

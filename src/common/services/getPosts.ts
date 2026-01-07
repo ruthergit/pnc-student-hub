@@ -18,7 +18,7 @@ export const getPosts = async ({ pageParam = 0 }) => {
       created_at,
       updated_at,
       is_deleted,
-      students!inner(id, full_name),
+      students!inner(id, full_name, department),
       materials(*),
       marketplace_items(*)
     `

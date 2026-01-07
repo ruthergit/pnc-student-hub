@@ -50,14 +50,14 @@ const UnifiedFeed = () => {
     <div className="space-y-4 pt-12 pb-30 h-dvh overflow-y-auto scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       {posts.map((post) => {
         switch (post.post_type) {
-          case "marketplace":
-            return <MarketPost key={post.id} post={post} />;
+          // case "marketplace":
+          //   return <MarketPost key={post.id} post={post} />;
 
-          case "material":
-            return <MaterialPost key={post.id} post={post} />;
+          // case "material":
+          //   return <MaterialPost key={post.id} post={post} />;
 
           case "post":
-            return <RequestPost key={post.id} post={post} />;
+            return <RequestPost key={post.id} {...post as any}/>;
 
           default:
             return null;
